@@ -5,6 +5,7 @@ import gdcm
 import sys
 #import cv2
 import os
+from pathlib import Path
 
 def transform_to_hu(medical_image, image):
     intercept = medical_image.RescaleIntercept
