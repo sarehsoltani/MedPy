@@ -1,6 +1,8 @@
 import pydicom
 import matplotlib.pylab as plt
 import numpy as np
+import gdcm
+import sys
 #import cv2
 import os
 
@@ -18,7 +20,7 @@ def window_image(image, window_center, window_width):
     window_image[window_image > img_max] = img_max
     return window_image    
 
-file_path = "F:/University/S0000001119/sample/CT_small.dcm"
+file_path = "F:/University/S0000001119/sample/sam2.dcm"
 output_path = "./"
 medical_image = pydicom.read_file(file_path)
 print(medical_image.pixel_array)
