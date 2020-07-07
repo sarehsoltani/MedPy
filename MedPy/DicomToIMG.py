@@ -1,39 +1,34 @@
-import pydicom
+import pydicom as dicom
+import os
 import matplotlib.pylab as plt
 import numpy as np
-import gdcm
-import sys
-#import cv2
-import os
-from pathlib import Path
+import glob
 
-def transform_to_hu(medical_image, image):
-    intercept = medical_image.RescaleIntercept
-    slope = medical_image.RescaleSlope
-    hu_image = image * slope + intercept
-    return hu_image
+PathDicom = "F:/University/S0000001119/S0000001119"
+DCMFiles = []  # create an empty list
+for dirName, subdirList, fileList in os.walk(PathDicom):
+    for filename in fileList:
+        if ".dcm" in filename.lower():  # check whether the file's DICOM
+            DCMFiles.append(os.path.join(dirName,filename))        
 
-def window_image(image, window_center, window_width):
-    img_min = window_center - window_width // 2
-    img_max = window_center + window_width // 2
-    window_image = image.copy()
-    window_image[window_image < img_min] = img_min
-    window_image[window_image > img_max] = img_max
-    return window_image    
+FirstFile = dicom.read_file(DCMFiles[0])
+ConstPixelDims = (int(FirstFile.Rows), int(FirstFile.Columns))
+ConstPixelSpacing = (float(FirstFile.PixelSpacing[0]), float(FirstFile.PixelSpacing[1]), float(FirstFile.SliceThickness))
 
-file_path = "F:/University/S0000001119/sample/sam2.dcm"
-output_path = "./"
-medical_image = pydicom.read_file(file_path)
-print(medical_image.pixel_array)
-image = medical_image.pixel_array 
-print(image.shape)
-hu_image = transform_to_hu(medical_image, image)
-brain_image = window_image(hu_image, 40, 80)
-#print(brain_image)
-bone_image = window_image(hu_image, 400, 1000)
-#plot the image using matplotlib
-plt.imshow(image)
+x = np.arange(0.0, (ConstPixelDims[0]+1)*ConstPixelSpacing[0], ConstPixelSpacing[0])
+y = np.arange(0.0, (ConstPixelDims[1]+1)*ConstPixelSpacing[1], ConstPixelSpacing[1])
+#z = np.arange(0.0, (ConstPixelDims[2]+1)*ConstPixelSpacing[2], ConstPixelSpacing[2])
+ArrayDicom = np.zeros(ConstPixelDims)
+
+for filenameDCM in DCMFiles:
+    ds = dicom.read_file(filenameDCM)
+    ArrayDicom = ds.pixel_array
+    
+  
+#Plot    
+plt.figure(dpi=150)
+plt.axes().set_aspect('equal', 'datalim')
+#plt.set_cmap(plt.gray())
+plt.pcolormesh(x, y, np.flipud(ArrayDicom))
+plt.imshow(ArrayDicom)
 plt.show()
-
-
-#ds = pydicom.filereader.dcmread('F:/University/S0000001119/sample/sam.dcm')
