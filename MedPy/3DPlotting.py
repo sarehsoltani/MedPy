@@ -35,13 +35,14 @@ def load_and_plot_image(file_path, save=False):
     brain_image = window_image(hu_image, 40, 80)
     bone_image = window_image(hu_image, 400, 1000)
     
-    plt.figure(figsize=(20, 10))
-    plt.style.use('grayscale')
+    #plt.figure(figsize=(20, 10))
+    #plt.style.use('grayscale')
 
-    plt.subplot(151)
+    #plt.subplot(200)
     plt.imshow(image)
-    plt.title('Original')
+    #plt.title('Original')
     plt.axis('off')
+    plt.show()
     
 
     plt.subplot(152)
@@ -63,13 +64,13 @@ def load_and_plot_image(file_path, save=False):
     
     if save:
         mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-original.png'), image)
-        mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-hu_image.png'), hu_image)
-        mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-brain_image.png'), brain_image)
-        mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-bone_image.png'), bone_image)
+        #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-hu_image.png'), hu_image)
+        #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-brain_image.png'), brain_image)
+        #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-bone_image.png'), bone_image)
 
 
 #final_image = remove_noise("F:/University/S0000001119/sample/sam.dcm")
 #plt.imshow(final_image)
 #plt.show()
 
-load_and_plot_image("F:/University/S0000001119/sample/sam.dcm")
+load_and_plot_image("F:/University/S0000001119/dataset/ID_0007_AGE_0061_CONTRAST_1_CT.dcm")
