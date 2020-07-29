@@ -8,7 +8,7 @@ from matplotlib import pyplot, cm
 
 
 PathDicom  = 'F:/University/S0000001119/S0000001119/'
-reader = vtk.vtkDICOMReader() 
+reader = vtk.vtkDICOMImageReader()
 reader.SetDirectoryName(PathDicom)
 reader.Update()
 
