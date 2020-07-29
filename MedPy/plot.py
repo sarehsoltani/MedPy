@@ -59,3 +59,37 @@ plt.imshow(img3d[img_shape[0]//2, :, :].T)
 a3.set_aspect(cor_aspect)
 
 plt.show()
+
+
+#for i in ArrayDicom:
+ #   plt.figure(dpi=10)
+  #  plt.imshow(ArrayDicom)
+
+
+    #print(ArrayDicom[1])
+    #plt.imshow(ArrayDicom[0])
+    #plt.show()
+
+    #rows=6 
+    #cols=6
+    #start_with=10
+    #show_every=3
+    #fig,ax = plt.subplots(rows,cols,figsize=[2,2])
+    #for i in range(rows*cols):
+    #    ind = start_with + i*show_every
+    #    #ax[int(i/rows),int(i % rows)].set_title('slice %d' % ind)
+    #    ax[int(i/rows),int(i % rows)].imshow(ArrayDicom[ind],cmap='gray')
+    #    ax[int(i/rows),int(i % rows)].axis('off')
+    #plt.show()
+  
+
+#cnt = 1
+#fig, axes = plt.subplots(7, 4 , figsize=(5, 5))
+#for i, row in enumerate(axes):
+ #   for j, axe in enumerate(row):
+  #      if i > 3:
+   #         if j > 3 - cnt:
+    #            axe.set_visible(False)
+   # if i > 3:
+    #    cnt += 1 
+#print(ArrayDicom[1])  
