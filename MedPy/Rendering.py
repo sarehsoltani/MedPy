@@ -1,43 +1,37 @@
-import numpy
+from __future__ import print_function
+import sys
 import pydicom as dicom
 import os
-
-import vtk
-from vtk.util import numpy_support
 from matplotlib import pyplot, cm
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import SimpleITK as sitk
+from glob import glob
+from skimage.util import montage as montage2d
 
-
+    
 PathDicom  = 'F:/University/S0000001119/S0000001119/'
-reader = vtk.vtkDICOMImageReader()
-reader.SetDirectoryName(PathDicom)
-reader.Update()
+#def safe_sitk_read(folder_name, *args, **kwargs):
+#    dicom_names = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(folder_name)
+#    return sitk.ReadImage(dicom_names, *args, **kwargs)
 
-# Load dimensions using `GetDataExtent`
-_extent = reader.GetDataExtent()
-ConstPixelDims = [_extent[1]-_extent[0]+1, _extent[3]-_extent[2]+1, _extent[5]-_extent[4]+1]
+#def sitk_to_np(in_img):
+    # type: (sitk.Image) -> Tuple[np.ndarray, Tuple[float, float, float]]
+#    return sitk.GetArrayFromImage(in_img), in_img.GetSpacing()
+    
+#patient_folders = glob('F:/University/S0000001119/S0000001119/')
+#print(patient_folders)
+#first_pat = safe_sitk_read(patient_folders[0])
+#pat_img, pat_spc = sitk_to_np(first_pat)    
+#pyplot.imshow(montage2d(pat_img), cmap = 'bone')
+#pyplot.show()
+flair_file = 'F:/University/S0000001119/S0000001119/I0000470284.dcm'
 
-# Load spacing values
-ConstPixelSpacing = reader.GetPixelSpacing()
+images = sitk.ReadImage(flair_file)
+print("Width: ", images.GetWidth())
+print("Height:", images.GetHeight())
+print("Depth: ", images.GetDepth())
 
-x = numpy.arange(0.0, (ConstPixelDims[0]+1)*ConstPixelSpacing[0], ConstPixelSpacing[0])
-y = numpy.arange(0.0, (ConstPixelDims[1]+1)*ConstPixelSpacing[1], ConstPixelSpacing[1])
-z = numpy.arange(0.0, (ConstPixelDims[2]+1)*ConstPixelSpacing[2], ConstPixelSpacing[2])
-
-# Get the 'vtkImageData' object from the reader
-imageData = reader.GetOutput()
-# Get the 'vtkPointData' object from the 'vtkImageData' object
-pointData = imageData.GetPointData()
-# Ensure that only one array exists within the 'vtkPointData' object
-assert (pointData.GetNumberOfArrays()==1)
-# Get the `vtkArray` (or whatever derived type) which is needed for the `numpy_support.vtk_to_numpy` function
-arrayData = pointData.GetArray(0)
-
-# Convert the `vtkArray` to a NumPy array
-ArrayDicom = numpy_support.vtk_to_numpy(arrayData)
-# Reshape the NumPy array to 3D using 'ConstPixelDims' as a 'shape'
-ArrayDicom = ArrayDicom.reshape(ConstPixelDims, order='F')
-
-pyplot.axes().set_aspect('equal', 'datalim')
-pyplot.set_cmap(pyplot.gray())
-pyplot.pcolormesh(x, y, numpy.flipud(numpy.rot90(ArrayDicom[:, :, 80])))
-pyplot.show()
+print("Dimension:", images.GetDimension())
+print("Pixel ID: ", images.GetPixelIDValue())
+print("Pixel ID Type:", images.GetPixelIDTypeAsString())
