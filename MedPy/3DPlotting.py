@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 import os
 
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
@@ -28,8 +29,13 @@ def window_image(image, window_center, window_width):
 def load_and_plot_image(file_path, save=False):
     medical_image = pydicom.read_file(file_path)
     image = medical_image.pixel_array
-    
+    print(medical_image)
     print(image.shape)
+    
+    print(image.mode)
+    print(image.dtype)
+    print(image.shape)
+  
     
     hu_image = transform_to_hu(medical_image, image)
     brain_image = window_image(hu_image, 40, 80)
@@ -39,31 +45,31 @@ def load_and_plot_image(file_path, save=False):
     #plt.style.use('grayscale')
 
     #plt.subplot(200)
-    plt.imshow(image)
+    #plt.imshow(image)
     #plt.title('Original')
-    plt.axis('off')
-    plt.show()
+    #plt.axis('off')
+    #plt.show()
     
 
-    plt.subplot(152)
-    plt.imshow(hu_image)
-    plt.title('Hu image')
-    plt.axis('off')
+    #plt.subplot(152)
+    #plt.imshow(hu_image)
+    #plt.title('Hu image')
+    #plt.axis('off')
     
 
-    plt.subplot(153)
-    plt.imshow(brain_image)
-    plt.title('brain image')
-    plt.axis('off')
+    #plt.subplot(153)
+    #plt.imshow(brain_image)
+    #plt.title('brain image')
+    #plt.axis('off')
 
-    plt.subplot(154)
-    plt.imshow(bone_image)
-    plt.title('bone image')
-    plt.axis('off')
-    plt.show()
+    #plt.subplot(154)
+    #plt.imshow(bone_image)
+    #plt.title('bone image')
+    #plt.axis('off')
+    #plt.show()
     
-    if save:
-        mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-original.png'), image)
+    #if save:
+     #   mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-original.png'), image)
         #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-hu_image.png'), hu_image)
         #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-brain_image.png'), brain_image)
         #mpimg.imsave(os.path.join(output_path, f'{file_path[:-4]}-bone_image.png'), bone_image)
@@ -73,4 +79,4 @@ def load_and_plot_image(file_path, save=False):
 #plt.imshow(final_image)
 #plt.show()
 
-load_and_plot_image("F:/University/S0000001119/dataset/ID_0007_AGE_0061_CONTRAST_1_CT.dcm")
+load_and_plot_image("F:/University/Terms/term9/AI/DetectionMRI/MedPy/dataset/I0000470285.dcm")
